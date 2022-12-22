@@ -6,13 +6,27 @@
 #define EDITOR_PIECETABLE_H
 
 #include <string>
+#include <sstream>
+#include <vector>
 
 namespace editor {
 
+    struct Piece {
+        uint64_t start;
+        uint64_t end;
+        bool original;
+    };
+
     class PieceTable {
+    private:
+        uint64_t m_cursorPos{};
+        std::string m_original;
+        std::stringstream m_appended;
+
+        std::vector<Piece> m_pieces;
     public:
         PieceTable();
-        explicit PieceTable(const std::string &initialText);
+        explicit PieceTable(std::string initialText);
 
         std::string get();
         void put(char c);
