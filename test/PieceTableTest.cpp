@@ -13,3 +13,25 @@ TEST(PieceTableTest, InitializePieceTableWithValue_ContainsGivenValue) {
     auto table = editor::PieceTable((std::string &) "Hello World");
     ASSERT_EQ(table.get(), "Hello World");
 }
+
+TEST(PieceTableTest, InitializePieceTableWithValue_ChangeInitialTable_ChangesAreReflectedInOutput) {
+    auto table = editor::PieceTable((std::string &) "Hello World");
+    table.cursor(5);
+    table.put(" you beautiful");
+    ASSERT_EQ(table.get(), "Hello you beautiful World");
+}
+
+TEST(PieceTableTest, InitializePieceTableWithValue_ChangeSingleCharacter_ChangesAreReflectedInOutput) {
+    auto table = editor::PieceTable((std::string &) "Hello World");
+    table.cursor(11);
+    table.put('!');
+    ASSERT_EQ(table.get(), "Hello World!");
+}
+
+TEST(PieceTableTest, InitializePieceTableWithValue_ChangeMultipleCharacters_ChangesAreReflectedInOutput) {
+    auto table = editor::PieceTable((std::string &) "Hello World");
+    table.cursor(11);
+    table.put('!');
+    table.put("?");
+    ASSERT_EQ(table.get(), "Hello World!?");
+}
