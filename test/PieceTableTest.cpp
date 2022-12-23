@@ -21,6 +21,14 @@ TEST(PieceTableTest, InitializePieceTableWithValue_ChangeInitialTable_ChangesAre
     ASSERT_EQ(table.get(), "Hello you beautiful World");
 }
 
+TEST(PieceTableTest, InitializePieceTableWithValue_ChangeInitialTableTwice_ChangesAreReflectedInOutput) {
+    auto table = editor::PieceTable("Hello World");
+    table.cursor(5);
+    table.put(" you beautiful");
+    table.put(" and pretty");
+    ASSERT_EQ(table.get(), "Hello you beautiful and pretty World");
+}
+
 TEST(PieceTableTest, InitializePieceTableWithValue_ChangeSingleCharacter_ChangesAreReflectedInOutput) {
     auto table = editor::PieceTable("Hello World");
     table.cursor(11);
