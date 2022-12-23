@@ -32,6 +32,6 @@ TEST(PieceTableTest, InitializePieceTableWithValue_ChangeMultipleCharacters_Chan
     auto table = editor::PieceTable("Hello World");
     table.cursor(11);
     table.put('!');
-    table.put("?");
+    table.put('?');
     ASSERT_EQ(table.get(), "Hello World!?");
 }
