@@ -59,9 +59,19 @@ namespace editor {
 
         Piece newPiece = {m_appended.str().size() - 1, m_appended.str().size(), false};
 
-        m_pieces.insert(std::next(m_pieces.begin(), index), splits.first);
-        m_pieces.insert(std::next(m_pieces.begin(), index + 1), newPiece);
-        m_pieces.insert(std::next(m_pieces.begin(), index + 2), splits.second);
+        // pieces whose start and end values are the same don't produce any text
+        // we can therefore safely ignore them
+        if (splits.first.start != splits.first.end) {
+            m_pieces.insert(std::next(m_pieces.begin(), index), splits.first);
+            index++;
+        }
+
+        m_pieces.insert(std::next(m_pieces.begin(), index), newPiece);
+        index++;
+
+        if (splits.second.start != splits.second.end) {
+            m_pieces.insert(std::next(m_pieces.begin(), index + 2), splits.second);
+        }
 
         this->m_size++;
         this->cursorInc();
