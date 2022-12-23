@@ -43,3 +43,10 @@ TEST(PieceTableTest, InitializePieceTableWithValue_ChangeMultipleCharacters_Chan
     table.put('?');
     ASSERT_EQ(table.get(), "Hello World!?");
 }
+
+TEST(PieceTableTest, InitializePieceTableWithValue_DeleteSingleCharacter_ChangesAreReflectedInOutput) {
+    auto table = editor::PieceTable("Hello World");
+    table.cursor(5);
+    table.remove();
+    ASSERT_EQ(table.get(), "Hell World");
+}

@@ -33,6 +33,7 @@ namespace editor {
         std::string get();
         void put(char c);
         void put(const std::string& string);
+        void remove();
         void cursor(uint64_t position);
         void cursorInc();
         void cursorDec();

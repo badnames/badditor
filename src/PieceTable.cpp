@@ -141,6 +141,34 @@ namespace editor {
         m_cursorPos--;
     }
 
+    void PieceTable::remove() {
+        if (m_size == 0) {
+            return;
+        }
+
+        auto index = getPieceIndexForModification(m_pieces, m_cursorPos);
+        Piece &piece = m_pieces[index];
+
+        auto splitPoint = getRelativeSplitIndex(m_pieces, index, m_cursorPos);
+        auto splits = splitPiece(piece, splitPoint);
+        m_pieces.erase(std::next(m_pieces.begin(), index));
+
+        // pieces whose start and end values are the same don't produce any text
+        // we can therefore safely ignore them
+        if (splits.first.start < splits.first.end - 1) {
+            splits.first.end--;
+            m_pieces.insert(std::next(m_pieces.begin(), index), splits.first);
+            index++;
+        }
+
+        if (splits.second.start != splits.second.end) {
+            m_pieces.insert(std::next(m_pieces.begin(), index), splits.second);
+        }
+
+        this->cursorDec();
+        m_size--;
+    }
+
     inline uint64_t getPieceIndexForModification(std::vector<Piece> pieces, uint64_t cursorPos) {
         uint64_t charCount = 0;
 
