@@ -70,15 +70,51 @@ namespace editor {
         index++;
 
         if (splits.second.start != splits.second.end) {
-            m_pieces.insert(std::next(m_pieces.begin(), index + 2), splits.second);
+            m_pieces.insert(std::next(m_pieces.begin(), index), splits.second);
         }
 
         this->m_size++;
         this->cursorInc();
     }
 
-    void PieceTable::put(const std::string string) {
+    void PieceTable::put(const std::string& string) {
+        auto m_appendedSizeBefore = m_appended.str().size();
+        m_appended << string;
 
+        auto index = getPieceIndexForModification(m_pieces, m_cursorPos);
+        Piece &piece = m_pieces[index];
+
+        // the simpler case
+        // we only need to increment the end index
+        if (!piece.original && piece.end == m_appendedSizeBefore) {
+            piece.end += string.size();
+            this->m_size++;
+            this->cursorInc();
+            return;
+        }
+
+        auto splitPoint = getRelativeSplitIndex(m_pieces, index, m_cursorPos);
+        auto splits = splitPiece(piece, splitPoint);
+        m_pieces.erase(std::next(m_pieces.begin(), index));
+
+        Piece newPiece = {m_appendedSizeBefore, m_appended.str().size(), false};
+
+        // pieces whose start and end values are the same don't produce any text
+        // we can therefore safely ignore them
+        if (splits.first.start != splits.first.end) {
+            m_pieces.insert(std::next(m_pieces.begin(), index), splits.first);
+            index++;
+        }
+
+        m_pieces.insert(std::next(m_pieces.begin(), index), newPiece);
+        index++;
+
+        if (splits.second.start != splits.second.end) {
+            m_pieces.insert(std::next(m_pieces.begin(), index), splits.second);
+        }
+
+        this->m_size++;
+        this->cursorInc();
     }
 
     void PieceTable::cursor(const uint64_t position) {

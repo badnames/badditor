@@ -32,7 +32,7 @@ namespace editor {
 
         std::string get();
         void put(char c);
-        void put(std::string string);
+        void put(const std::string& string);
         void cursor(uint64_t position);
         void cursorInc();
         void cursorDec();
