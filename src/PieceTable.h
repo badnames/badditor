@@ -19,14 +19,16 @@ namespace editor {
 
     class PieceTable {
     private:
-        uint64_t m_cursorPos{};
+        uint64_t m_cursorPos;
+        uint64_t m_size;
         std::string m_original;
         std::stringstream m_appended;
 
         std::vector<Piece> m_pieces;
+
     public:
         PieceTable();
-        explicit PieceTable(std::string initialText);
+        explicit PieceTable(const std::string& initialText);
 
         std::string get();
         void put(char c);
