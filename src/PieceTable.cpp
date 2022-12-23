@@ -49,7 +49,7 @@ namespace editor {
         if (!piece.original && piece.end == m_appendedSize) {
             piece.end++;
             this->m_size++;
-            this->cursorInc();
+            this->incrementCursor();
             return;
         }
 
@@ -74,7 +74,7 @@ namespace editor {
         }
 
         this->m_size++;
-        this->cursorInc();
+        this->incrementCursor();
     }
 
     void PieceTable::put(const std::string& string) {
@@ -89,7 +89,7 @@ namespace editor {
         if (!piece.original && piece.end == m_appendedSizeBefore) {
             piece.end += string.size();
             this->m_size++;
-            this->cursorInc();
+            this->incrementCursor();
             return;
         }
 
@@ -114,10 +114,10 @@ namespace editor {
         }
 
         this->m_size++;
-        this->cursorInc();
+        this->incrementCursor();
     }
 
-    void PieceTable::cursor(const uint64_t position) {
+    void PieceTable::setCursor(uint64_t position) {
         if (m_cursorPos > m_size) {
             throw std::bad_exception();
         }
@@ -125,7 +125,7 @@ namespace editor {
         this->m_cursorPos = position;
     }
 
-    void PieceTable::cursorInc() {
+    void PieceTable::incrementCursor() {
         if (m_cursorPos >= m_size) {
             return;
         }
@@ -133,7 +133,7 @@ namespace editor {
         m_cursorPos++;
     }
 
-    void PieceTable::cursorDec() {
+    void PieceTable::decrementCursor() {
         if (m_cursorPos == 0) {
             return;
         }
@@ -165,7 +165,7 @@ namespace editor {
             m_pieces.insert(std::next(m_pieces.begin(), index), splits.second);
         }
 
-        this->cursorDec();
+        this->decrementCursor();
         m_size--;
     }
 

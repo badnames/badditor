@@ -34,9 +34,9 @@ namespace editor {
         void put(char c);
         void put(const std::string& string);
         void remove();
-        void cursor(uint64_t position);
-        void cursorInc();
-        void cursorDec();
+        void setCursor(uint64_t position);
+        void incrementCursor();
+        void decrementCursor();
     };
 
 } // editor

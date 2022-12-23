@@ -16,14 +16,14 @@ TEST(PieceTableTest, InitializePieceTableWithValue_ContainsGivenValue) {
 
 TEST(PieceTableTest, InitializePieceTableWithValue_ChangeInitialTable_ChangesAreReflectedInOutput) {
     auto table = editor::PieceTable("Hello World");
-    table.cursor(5);
+    table.setCursor(5);
     table.put(" you beautiful");
     ASSERT_EQ(table.get(), "Hello you beautiful World");
 }
 
 TEST(PieceTableTest, InitializePieceTableWithValue_ChangeInitialTableTwice_ChangesAreReflectedInOutput) {
     auto table = editor::PieceTable("Hello World");
-    table.cursor(5);
+    table.setCursor(5);
     table.put(" you beautiful");
     table.put(" and pretty");
     ASSERT_EQ(table.get(), "Hello you beautiful and pretty World");
@@ -31,14 +31,14 @@ TEST(PieceTableTest, InitializePieceTableWithValue_ChangeInitialTableTwice_Chang
 
 TEST(PieceTableTest, InitializePieceTableWithValue_ChangeSingleCharacter_ChangesAreReflectedInOutput) {
     auto table = editor::PieceTable("Hello World");
-    table.cursor(11);
+    table.setCursor(11);
     table.put('!');
     ASSERT_EQ(table.get(), "Hello World!");
 }
 
 TEST(PieceTableTest, InitializePieceTableWithValue_ChangeMultipleCharacters_ChangesAreReflectedInOutput) {
     auto table = editor::PieceTable("Hello World");
-    table.cursor(11);
+    table.setCursor(11);
     table.put('!');
     table.put('?');
     ASSERT_EQ(table.get(), "Hello World!?");
@@ -46,7 +46,7 @@ TEST(PieceTableTest, InitializePieceTableWithValue_ChangeMultipleCharacters_Chan
 
 TEST(PieceTableTest, InitializePieceTableWithValue_DeleteSingleCharacter_ChangesAreReflectedInOutput) {
     auto table = editor::PieceTable("Hello World");
-    table.cursor(5);
+    table.setCursor(5);
     table.remove();
     ASSERT_EQ(table.get(), "Hell World");
 }
