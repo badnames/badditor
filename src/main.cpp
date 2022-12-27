@@ -1,6 +1,13 @@
+#include <iostream>
 #include <curses.h>
+#include "PieceTable.h"
+
+namespace editor {
+    void redraw(WINDOW *window, PieceTable &pieceTable);
+}
 
 int main() {
+    // setup curses
     WINDOW *mainWindow = initscr();
     cbreak();
     noecho();
@@ -8,20 +15,58 @@ int main() {
     intrflush(stdscr, FALSE);
     keypad(stdscr, TRUE);
 
-    int width = 0, height = 0;
-    getmaxyx(mainWindow, height, width);
-
     clear();
-    // Hello World!
-    mvaddstr(height / 2, width / 2, "Hello World!");
-    refresh();
 
-    while(true) {
-        char input = getch();
-        if (input == 'q') break;
+    // initialize piece table
+    editor::PieceTable pieceTable;
+    pieceTable.setCursor(0);
+
+    bool running = true;
+    while(running) {
+        auto input = getch();
+
+        switch (input) {
+            // quit if escape was pressed
+            case 27:
+                running = false;
+                break;
+
+            case KEY_BACKSPACE:
+                pieceTable.remove();
+                break;
+
+            case KEY_ENTER:
+                pieceTable.put('\n');
+                break;
+
+            default:
+                pieceTable.put((char) input);
+        }
+
+        editor::redraw(mainWindow, pieceTable);
+        refresh();
     }
 
     endwin();
-
+    std::cout << pieceTable.get() << std::endl;
     return 0;
+}
+
+namespace editor {
+    void redraw(WINDOW *window, PieceTable &pieceTable) {
+        int height = getmaxy(window);
+        std::string text = pieceTable.get();
+        std::stringstream textStream(text);
+
+        for (auto y = 0; y < height; y++) {
+            std::string line;
+
+            if (!std::getline(textStream, line, '\n')) {
+                break;
+            }
+
+            wmove(window, y, 0);
+            winsstr(window, line.c_str());
+        }
+    }
 }
