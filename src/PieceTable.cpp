@@ -41,11 +41,16 @@ namespace editor {
         auto m_appendedSize = m_appended.str().size();
         m_appended << c;
 
+        // no pieces exist yet
+        if (m_pieces.empty()) {
+            m_pieces.push_back({0, 1, false});
+            return;
+        }
+
         auto index = getPieceIndexForModification(m_pieces, m_cursorPos);
         Piece &piece = m_pieces[index];
 
-        // the simpler case
-        // we only need to increment the end index
+        // using fewer larger pieces is more efficient than having lots of pieces that only contain a single character
         if (!piece.original && piece.end == m_appendedSize) {
             piece.end++;
             this->m_size++;
@@ -81,11 +86,16 @@ namespace editor {
         auto m_appendedSizeBefore = m_appended.str().size();
         m_appended << string;
 
+        // no pieces exist yet
+        if (m_pieces.empty()) {
+            m_pieces.push_back({0, string.length(), false});
+            return;
+        }
+
         auto index = getPieceIndexForModification(m_pieces, m_cursorPos);
         Piece &piece = m_pieces[index];
 
-        // the simpler case
-        // we only need to increment the end index
+        // using fewer larger pieces is more efficient than having lots of pieces that only contain a single character
         if (!piece.original && piece.end == m_appendedSizeBefore) {
             piece.end += string.size();
             this->m_size++;

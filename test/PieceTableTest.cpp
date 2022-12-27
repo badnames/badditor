@@ -9,6 +9,18 @@ TEST(PieceTableTest, InitializePieceTable_ContainsEmtpyString) {
     ASSERT_EQ(table.get(), "");
 }
 
+TEST(PieceTableTest, InitializePieceTable_WriteSingleChar_ContainsSingleChar) {
+    auto table = editor::PieceTable();
+    table.put('c');
+    ASSERT_EQ(table.get(), "c");
+}
+
+TEST(PieceTableTest, InitializePieceTable_WriteString_ContainsString) {
+    auto table = editor::PieceTable();
+    table.put("Hello World!");
+    ASSERT_EQ(table.get(), "Hello World!");
+}
+
 TEST(PieceTableTest, InitializePieceTableWithValue_ContainsGivenValue) {
     auto table = editor::PieceTable("Hello World");
     ASSERT_EQ(table.get(), "Hello World");
