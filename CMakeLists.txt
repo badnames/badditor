@@ -28,4 +28,8 @@ include(GoogleTest)
 gtest_discover_tests(piece_table_test)
 
 ################## MAIN EXECUTABLE ##################
-add_executable(editor src/main.cpp src/PieceTable.cpp src/PieceTable.h test/PieceTableTest.cpp)
+find_package( Curses REQUIRED )
+include_directories( ${CURSES_INCLUDE_DIRS} )
+
+add_executable(editor src/main.cpp src/PieceTable.cpp src/PieceTable.h)
+target_link_libraries(editor ${CURSES_LIBRARIES} )
