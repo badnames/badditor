@@ -43,6 +43,7 @@ int main() {
                 pieceTable.put((char) input);
         }
 
+        clear();
         editor::redraw(mainWindow, pieceTable);
         refresh();
     }
