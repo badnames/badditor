@@ -44,6 +44,8 @@ namespace editor {
         // no pieces exist yet
         if (m_pieces.empty()) {
             m_pieces.push_back({0, 1, false});
+            this->m_size++;
+            this->incrementCursor();
             return;
         }
 

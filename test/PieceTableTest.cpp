@@ -15,6 +15,17 @@ TEST(PieceTableTest, InitializePieceTable_WriteSingleChar_ContainsSingleChar) {
     ASSERT_EQ(table.get(), "c");
 }
 
+TEST(PieceTableTest, InitializePieceTable_WriteMultipleCharacters_DelteSingleCharacter_WriteSingleCharacter_ContainsCorrectText) {
+    auto table = editor::PieceTable();
+    table.put('a');
+    table.put('b');
+    table.put('c');
+    table.put('d');
+    table.remove();
+    table.put('f');
+    ASSERT_EQ(table.get(), "abcf");
+}
+
 TEST(PieceTableTest, InitializePieceTable_WriteString_ContainsString) {
     auto table = editor::PieceTable();
     table.put("Hello World!");
